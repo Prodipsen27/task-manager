@@ -19,11 +19,23 @@ const App = () => {
           // padding: { xs: 2, sm: 3, md: 4 }, 
           textAlign: "center", 
           borderRadius: "10px", 
-          backgroundColor: "#1976d2", 
+          backgroundColor: "#1e1e30", 
           color: "#fff",
           marginBottom: 4 
         }}
       >
+        <Dialog 
+        open={themeSwitcherOpen} 
+        onClose={() => setThemeSwitcherOpen(false)} 
+        maxWidth="sm"
+        fullWidth
+        color="black"
+      >
+        <DialogTitle>Switch Theme</DialogTitle>
+        <DialogContent>
+          <ThemeSwitcher />
+        </DialogContent>
+      </Dialog>
         <Typography 
           variant="h4" 
           sx={{ 
@@ -75,17 +87,7 @@ const App = () => {
       </Dialog>
 
       {/* Pop-up Theme Switcher */}
-      <Dialog 
-        open={themeSwitcherOpen} 
-        onClose={() => setThemeSwitcherOpen(false)} 
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>Switch Theme</DialogTitle>
-        <DialogContent>
-          <ThemeSwitcher />
-        </DialogContent>
-      </Dialog>
+      
     </Container>
   );
 };

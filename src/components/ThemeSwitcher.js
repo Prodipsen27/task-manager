@@ -13,7 +13,7 @@ const ThemeSwitcher = () => {
         <MenuItem value="dark">Dark</MenuItem>
         <MenuItem value="yellow">Yellow Theme</MenuItem>
         <MenuItem value="blue">Light Blue Theme</MenuItem>
-        <MenuItem value="system">System Default</MenuItem>
+        {/* <MenuItem value="system">System Default</MenuItem> */}
       </Select>
     </FormControl>
   );

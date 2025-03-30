@@ -17,10 +17,11 @@ const TaskForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-    const today = new Date();
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     // console.log(today.toLocaleDateString()); // Outputs the date in your locale's format
     // Dispatching task with title and priority
-    dispatch(addTask({ id: uuid4(),date:today.toLocaleDateString(), title,description, completed: false, priority}));
+    dispatch(addTask({ id: uuid4(),date:date,time:time, title,description, completed: false, priority}));
     setTitle(""); // Reset task title
     setDescription("");
     setPriority("Neutral"); // Reset priority to default

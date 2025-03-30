@@ -12,9 +12,10 @@ const TaskList = () => {
   // Filter & Sort States
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("date");
+  const [sortBy, setSortBy] = useState("date"); // "date" or "priority"
+  const [sortOrder, setSortOrder] = useState("newest"); // "newest" or "oldest"
 
-  // Handle Drag and Drop
+  // Drag and Drop
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("index", index);
   };
@@ -30,30 +31,29 @@ const TaskList = () => {
     dispatch(reorderTasks(updatedTasks));
   };
 
-  // Filter and Sort Tasks Function
+  // Filter and Sort Tasks
   const getFilteredAndSortedTasks = () => {
-    let filtered = tasks.filter((task) => 
-      (statusFilter === "all" || task.completed === (statusFilter === "completed")) &&
-      (priorityFilter === "all" || task.priority === priorityFilter)
+    let filtered = tasks.filter(
+      (task) =>
+        (statusFilter === "all" || task.completed === (statusFilter === "completed")) &&
+        (priorityFilter === "all" || task.priority === priorityFilter)
     );
 
     return filtered.sort((a, b) => {
-      if (sortBy === "date") {
-        return new Date(a.date) - new Date(b.date);
-      } else if (sortBy === "priority") {
-        const priorityOrder = { High: 1, Medium: 2, Neutral: 3 };
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      }
-      return 0;
-    });
+      const timeA = new Date(`1970-01-01 ${a.time}`).getTime();
+      const timeB = new Date(`1970-01-01 ${b.time}`).getTime();
+  
+      return sortOrder === "newest" ? timeB - timeA : timeA - timeB;
+  });
+  
+    
   };
 
   const filteredAndSortedTasks = getFilteredAndSortedTasks();
 
   return (
-    <Paper sx={{ padding: "20px", marginTop: "20px", boxShadow: 3,  }}>
+    <Paper sx={{ padding: "20px", marginTop: "20px", boxShadow: 3 }}>
       {/* Filter UI */}
-      
       <Filter
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
@@ -61,11 +61,11 @@ const TaskList = () => {
         setPriorityFilter={setPriorityFilter}
         sortBy={sortBy}
         setSortBy={setSortBy}
-        
-        
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
       />
 
-      {/* Task List - Full Width & Vertical */}
+      {/* Task List */}
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}>
         {filteredAndSortedTasks.map((task, index) => (
           <TaskItem
